@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"flag"
 	"github.com/elazarl/goproxy"
 	"log"
 	"net/http"
@@ -67,6 +68,8 @@ func (r *RespHandler) Handle(resp *http.Response, ctx *goproxy.ProxyCtx) *http.R
 }
 
 func main() {
+	port := flag.String("port", "7182", "port of cproxy")
+	flag.Parse()
 	cache = make(map[string]*Body)
 	proxy := goproxy.NewProxyHttpServer()
 	proxy.Verbose = true
@@ -87,5 +90,5 @@ func main() {
 		})
 
 	proxy.OnResponse().Do(&RespHandler{})
-	log.Fatal(http.ListenAndServe(":8080", proxy))
+	log.Fatal(http.ListenAndServe(":"+*port, proxy))
 }
