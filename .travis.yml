@@ -4,4 +4,5 @@ go:
     - 1.4.1
 
 install:
-    go build github.com/xlvector/cproxy
+    - go get github.com/elazarl/goproxy
+    - go build github.com/xlvector/cproxy
