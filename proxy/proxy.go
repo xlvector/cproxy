@@ -1,8 +1,8 @@
 package main
 
 import (
-	"crawler/cproxy"
 	"flag"
+	"github.com/BigTong/cproxy"
 	"github.com/elazarl/goproxy"
 	"log"
 	"net/http"
