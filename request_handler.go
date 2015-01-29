@@ -16,11 +16,11 @@ type RequestHandler struct {
 }
 
 func (self *RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-	ctx.Logf("get one req:", req.URL.String())
+	ctx.Logf("get one req:%s", req.URL.String())
 	if randcode := req.FormValue("randcode"); randcode == "true" {
-		ctx.Logf("get request uri:", req.RequestURI)
+		ctx.Logf("get request uri:%s", req.URL.String())
 		req.RequestURI = strings.TrimRight(req.RequestURI, "&randcode=true")
-		id := req.RequestURI
+		id := req.URL.String()
 		imageCache.Set(id, "", 0)
 		return req, nil
 	}
