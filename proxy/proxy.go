@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/BigTong/cproxy"
 	"github.com/elazarl/goproxy"
+	"github.com/xlvector/cproxy"
 	"log"
 	"net/http"
 	"time"
