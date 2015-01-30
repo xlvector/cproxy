@@ -12,7 +12,6 @@ type RespHandler struct {
 }
 
 func (r *RespHandler) Handle(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	ctx.Logf("finish one req:", resp.Request.URL.String())
 	if resp == nil || resp.Request == nil || resp.Request.URL == nil {
 		return resp
 	}
@@ -28,31 +27,26 @@ func (r *RespHandler) Handle(resp *http.Response, ctx *goproxy.ProxyCtx) *http.R
 		return resp
 	}
 
-	if data, ok := cacheData.Get(link); ok {
-		if body, ok := data.(*Body); ok {
-			body.hit += 1
-			if body.immutable == IMMUTABLE_NO {
-				return resp
+	if value, ok := cacheData.Get(link); ok {
+		if body, ok := value.(*Body); ok {
+			if body.immutable != IMMUTABLE_NO {
+				if body.sn != time33(b) {
+					body.immutable = IMMUTABLE_NO
+				}
+				if body.immutable == IMMUTABLE_UNKNOWN && body.hit > 2 && body.sn == time33(b) {
+					body.immutable = IMMUTABLE_YES
+				}
 			}
-
-			if body.sn != time33(b) {
-				body.immutable = IMMUTABLE_NO
+			body.hit = 1
+		} else {
+			body = &Body{
+				data:      b,
+				sn:        time33(b),
+				immutable: IMMUTABLE_UNKNOWN,
+				hit:       1,
 			}
-
-			if body.immutable == IMMUTABLE_UNKNOWN && body.hit > 2 && body.sn == time33(b) {
-				body.immutable = IMMUTABLE_YES
-			}
-
-			return resp
+			cacheData.Set(link, body, 0)
 		}
 	}
-
-	body := &Body{
-		data:      b,
-		sn:        time33(b),
-		immutable: IMMUTABLE_UNKNOWN,
-		hit:       1,
-	}
-	cacheData.Set(link, body, 0)
 	return resp
 }

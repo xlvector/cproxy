@@ -1,14 +1,5 @@
 package cproxy
 
-func time33(b []byte) int64 {
-	ret := int64(0)
-	for _, e := range b {
-		ret *= 33
-		ret += int64(e)
-	}
-	return ret
-}
-
 const (
 	IMMUTABLE_UNKNOWN = 0
 	IMMUTABLE_YES     = 1
@@ -20,4 +11,13 @@ type Body struct {
 	sn        int64
 	immutable int
 	hit       int
+}
+
+func time33(b []byte) int64 {
+	ret := int64(0)
+	for _, e := range b {
+		ret *= 33
+		ret += int64(e)
+	}
+	return ret
 }
