@@ -28,7 +28,7 @@ func (self *RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*h
 
 	link := req.URL.String()
 	if value, ok := cacheData.Get(link); ok {
-		if body, ok := value.(*Body); ok && body.immutable == IMMUTABLE_YES {
+		if body, ok := value.(*Body); ok {
 			cResp, err := http.ReadResponse(bufio.NewReader(bytes.NewReader(body.data)), req)
 			if err != nil {
 				ctx.Warnf("read resp from cache error: %s", err.Error())
