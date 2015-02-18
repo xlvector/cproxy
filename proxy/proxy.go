@@ -34,10 +34,8 @@ func main() {
 		}
 		go s.ListenAndServe()
 	} else {
-		time.Sleep(time.Second * 30)
 		ticker := time.NewTicker(time.Minute)
 		c := http.Client{}
-		c.Get(*managerHost + "/register?proxy=" + *host)
 		go func() {
 			for _ = range ticker.C {
 				c.Get(*managerHost + "/heartbeat?proxy=" + *host)

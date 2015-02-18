@@ -86,6 +86,7 @@ func Register(link string) {
 }
 
 func HeartBeat(link string) {
+	log.Println("heart beat:", link)
 	if p, ok := proxies[link]; ok {
 		p.LastHeartBeat = time.Now()
 	} else {
