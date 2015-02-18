@@ -16,6 +16,7 @@ import (
 type Proxy struct {
 	Link          string
 	LastHeartBeat time.Time
+	CheckOK       bool
 }
 
 var proxies map[string]*Proxy
@@ -80,6 +81,7 @@ func Register(link string) {
 	p := &Proxy{
 		Link:          link,
 		LastHeartBeat: time.Now(),
+		CheckOK:       true,
 	}
 	proxies[link] = p
 	proxyList = append(proxyList, p)
@@ -88,6 +90,9 @@ func Register(link string) {
 func HeartBeat(link string) {
 	log.Println("heart beat:", link)
 	if p, ok := proxies[link]; ok {
+		if rand.Int()%10 == 0 {
+			p.CheckOK = checkProxy(link)
+		}
 		p.LastHeartBeat = time.Now()
 	} else {
 		Register(link)
@@ -97,7 +102,7 @@ func HeartBeat(link string) {
 func Select() *Proxy {
 	for i := 0; i < len(proxyList) && i < 3; i++ {
 		k := rand.Intn(len(proxyList))
-		if time.Now().Sub(proxyList[k].LastHeartBeat).Minutes() < 5 {
+		if time.Now().Sub(proxyList[k].LastHeartBeat).Minutes() < 5 && proxyList[k].CheckOK {
 			return proxyList[k]
 		}
 	}
