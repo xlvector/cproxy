@@ -51,14 +51,17 @@ func checkProxy(link string) bool {
 	}
 	resp, err := client.Get("http://54.223.171.0:7183/check")
 	if err != nil {
+		log.Println(err)
 		return false
 	}
 	if resp == nil {
+		log.Println("resp is nil")
 		return false
 	}
 	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		log.Println(err)
 		return false
 	}
 	t := strings.Trim(string(b), " \n\t\r")
