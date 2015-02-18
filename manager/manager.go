@@ -35,8 +35,8 @@ func checkProxy(link string) bool {
 	client := &http.Client{
 		Transport: &http.Transport{
 			Dial: func(network, addr string) (net.Conn, error) {
-				deadline := time.Now().Add(5000)
-				c, err := net.DialTimeout(network, addr, 5000)
+				deadline := time.Now().Add(5 * time.Second)
+				c, err := net.DialTimeout(network, addr, 5*time.Second)
 				if err != nil {
 					return nil, err
 				}
@@ -44,7 +44,7 @@ func checkProxy(link string) bool {
 				return c, nil
 			},
 			DisableKeepAlives:     true,
-			ResponseHeaderTimeout: 5000,
+			ResponseHeaderTimeout: 5 * time.Second,
 			DisableCompression:    false,
 			Proxy:                 http.ProxyURL(proxy),
 		},
