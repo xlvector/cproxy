@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -41,7 +42,7 @@ func checkProxy(link string) bool {
 	if resp == nil {
 		return false
 	}
-	defer resp.Close()
+	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return false
