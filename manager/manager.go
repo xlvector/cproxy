@@ -30,6 +30,7 @@ func checkProxy(link string) bool {
 	log.Println("begin check:", link)
 	proxy, err := url.Parse(link)
 	if err != nil {
+		log.Println(err)
 		return false
 	}
 	client := &http.Client{
@@ -87,6 +88,8 @@ func Register(link string) {
 func HeartBeat(link string) {
 	if p, ok := proxies[link]; ok {
 		p.LastHeartBeat = time.Now()
+	} else {
+		Register(link)
 	}
 }
 
