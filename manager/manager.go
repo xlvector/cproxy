@@ -33,7 +33,19 @@ func checkProxy(link string) bool {
 	}
 	client := &http.Client{
 		Transport: &http.Transport{
-			Proxy: http.ProxyURL(proxy),
+			Dial: func(network, addr string) (net.Conn, error) {
+				deadline := time.Now().Add(5000)
+				c, err := net.DialTimeout(network, addr, 5000)
+				if err != nil {
+					return nil, err
+				}
+				c.SetDeadline(deadline)
+				return c, nil
+			},
+			DisableKeepAlives:     true,
+			ResponseHeaderTimeout: 5000,
+			DisableCompression:    false,
+			Proxy:                 http.ProxyURL(proxy),
 		},
 	}
 	resp, err := client.Get("http://54.223.171.0:7183/check")
