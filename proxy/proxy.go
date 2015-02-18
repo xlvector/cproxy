@@ -14,6 +14,7 @@ func main() {
 	proxyPort := flag.String("proxyPort", "7182", "port of cproxy")
 	managePort := flag.String("managePort", "7183", "manage port")
 	managerHost := flag.String("managerHost", "", "manager host")
+	host := flag.String("host", "", "host of current machine")
 	flag.Parse()
 	proxy := goproxy.NewProxyHttpServer()
 	proxy.Verbose = true
@@ -35,9 +36,10 @@ func main() {
 	} else {
 		ticker := time.NewTicker(time.Minute)
 		c := http.Client{}
+		c.Get(*managerHost + "/register?proxy=" + *host)
 		go func() {
 			for _ = range ticker.C {
-				c.Get(*managerHost)
+				c.Get(*managerHost + "/heartbeat?proxy=" + *host)
 			}
 		}()
 	}
