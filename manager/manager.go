@@ -26,6 +26,7 @@ func init() {
 }
 
 func checkProxy(link string) bool {
+	log.Println("begin check:", link)
 	proxy, err := url.Parse(link)
 	if err != nil {
 		return false
@@ -35,7 +36,7 @@ func checkProxy(link string) bool {
 			Proxy: http.ProxyURL(proxy),
 		},
 	}
-	resp, err := client.Get("http://127.0.0.1:7183/check")
+	resp, err := client.Get("http://54.223.171.0:7183/check")
 	if err != nil {
 		return false
 	}
