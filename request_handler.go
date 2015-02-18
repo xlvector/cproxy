@@ -15,17 +15,7 @@ type RequestHandler struct {
 }
 
 func (self *RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-	ctx.Logf("get one req:%s", req.URL.String())
-	params := req.URL.Query()
-	if randcode := params.Get("randcode"); randcode == "true" {
-		params.Del("randcode")
-		req.URL.RawQuery = params.Encode()
-		id := req.URL.String()
-		ctx.Logf("get randoce id:%s", id)
-		imageCache.Set(id, "", 0)
-		return req, nil
-	}
-
+	ctx.Logf("get one req: %s, method %s, data %v", req.URL.String(), req.Method, req.PostForm)
 	link := req.URL.String()
 	if value, ok := cacheData.Get(link); ok {
 		if body, ok := value.(*Body); ok {
