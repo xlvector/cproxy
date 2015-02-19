@@ -85,7 +85,7 @@ func Register(link string) {
 	}
 	alive, secs := checkProxy(link)
 	if !alive {
-		continue
+		return
 	}
 	p := &Proxy{
 		Link:          link,
