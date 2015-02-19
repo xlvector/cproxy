@@ -33,11 +33,16 @@ func main() {
 		}
 		go s.ListenAndServe()
 	} else {
-		c := http.Client{}
-		for i := 0; i < 8; i++ {
-			time.Sleep(time.Minute)
-			c.Get(*managerHost + "/register?proxy=" + *host)
-		}
+		go func() {
+			c := http.Client{}
+			for i := 0; i < 8; i++ {
+				time.Sleep(time.Second * 20)
+				_, err := c.Get(*managerHost + "/register?proxy=" + *host)
+				if err == nil {
+					break
+				}
+			}
+		}()
 	}
 	log.Fatal(http.ListenAndServe(":"+*proxyPort, proxy))
 }
