@@ -34,8 +34,10 @@ func main() {
 		go s.ListenAndServe()
 	} else {
 		c := http.Client{}
-		time.Sleep(time.Minute)
-		c.Get(*managerHost + "/register?proxy=" + *host)
+		for i := 0; i < 8; i++ {
+			time.Sleep(time.Minute)
+			c.Get(*managerHost + "/register?proxy=" + *host)
+		}
 	}
 	log.Fatal(http.ListenAndServe(":"+*proxyPort, proxy))
 }
