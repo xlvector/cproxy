@@ -23,7 +23,6 @@ func main() {
 
 	if len(*managerHost) == 0 {
 		http.HandleFunc("/register", manager.HandleRegister)
-		http.HandleFunc("/heartbeat", manager.HandleHeartBeat)
 		http.HandleFunc("/select", manager.HandleSelect)
 		http.HandleFunc("/check", manager.HandleCheck)
 		s := &http.Server{
