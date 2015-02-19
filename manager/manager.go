@@ -23,6 +23,16 @@ type Proxy struct {
 	Ticker        *time.Ticker
 }
 
+func (p *Proxy) MarshalJSON() ([]byte, error) {
+	ret := map[string]interface{}{
+		"link":             p.Link,
+		"last_check_ok_tm": p.LastCheckOKTm.Unix(),
+		"last_check_ok":    p.LastCheckOK,
+		"ave_seconds":      p.AveSecs(),
+	}
+	return json.Marshal(ret)
+}
+
 func (p *Proxy) AveSecs() float64 {
 	return p.TotalSecs / p.TotalWeight
 }
