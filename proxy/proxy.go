@@ -25,6 +25,7 @@ func main() {
 		http.HandleFunc("/register", manager.HandleRegister)
 		http.HandleFunc("/select", manager.HandleSelect)
 		http.HandleFunc("/check", manager.HandleCheck)
+		http.HandleFunc("/list", manager.HandleList)
 		s := &http.Server{
 			Addr:           ":" + *managePort,
 			ReadTimeout:    30 * time.Second,

@@ -2,6 +2,7 @@
 package manager
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -141,4 +142,13 @@ func HandleSelect(rw http.ResponseWriter, req *http.Request) {
 func HandleCheck(rw http.ResponseWriter, req *http.Request) {
 	tks := strings.Split(req.RemoteAddr, ":")
 	fmt.Fprint(rw, tks[0])
+}
+
+func HandleList(rw http.ResponseWriter, req *http.Request) {
+	buf, err := json.Marshal(proxyList)
+	if err != nil {
+		fmt.Fprint(rw, "")
+		return
+	}
+	fmt.Fprint(rw, string(buf))
 }
