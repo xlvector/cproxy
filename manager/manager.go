@@ -19,10 +19,10 @@ type Proxy struct {
 	LastCheckOK   bool
 	TotalSecs     float64
 	TotalWeight   float64
-	Ticker        time.Ticker
+	Ticker        *time.Ticker
 }
 
-func (p *Proxy) AveSecs() {
+func (p *Proxy) AveSecs() float64 {
 	return p.TotalSecs / p.TotalWeight
 }
 
