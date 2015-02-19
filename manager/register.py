@@ -1,4 +1,7 @@
 import urllib2, sys
 
 for line in sys.stdin:
-    urllib2.urlopen(line.strip()).read()
+    try:
+        urllib2.urlopen(line.strip()).read()
+    except Exception, e:
+        pass
