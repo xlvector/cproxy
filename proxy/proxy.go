@@ -34,13 +34,8 @@ func main() {
 		}
 		go s.ListenAndServe()
 	} else {
-		ticker := time.NewTicker(time.Minute)
 		c := http.Client{}
-		go func() {
-			for _ = range ticker.C {
-				c.Get(*managerHost + "/heartbeat?proxy=" + *host)
-			}
-		}()
+		c.Get(*managerHost + "/register?proxy=" + *host)
 	}
 	log.Fatal(http.ListenAndServe(":"+*proxyPort, proxy))
 }
