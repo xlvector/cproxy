@@ -88,7 +88,7 @@ func checkProxy(link string) (bool, float64) {
 	t := strings.Trim(string(b), " \n\t\r")
 	log.Println(t)
 	if !strings.HasPrefix(t, "GET") {
-		return false
+		return false, 0
 	}
 	return strings.Contains(link, t[4:]), time.Now().Sub(start).Seconds()
 }
