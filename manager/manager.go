@@ -151,7 +151,7 @@ func HandleSelect(rw http.ResponseWriter, req *http.Request) {
 
 func HandleCheck(rw http.ResponseWriter, req *http.Request) {
 	tks := strings.Split(req.RemoteAddr, ":")
-	fmt.Fprint(rw, tks[0])
+	fmt.Fprint(rw, req.Method+":"+tks[0])
 }
 
 func HandleList(rw http.ResponseWriter, req *http.Request) {
