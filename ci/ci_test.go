@@ -29,7 +29,7 @@ func TestProxyCheck(t *testing.T) {
 		},
 	}
 	{
-		resp, err := client.Get("http://127.0.0.1:10086/check")
+		resp, err := client.Get("http://127.0.0.1:10086/check?aaa")
 		if err != nil {
 			t.Error(err)
 			return
@@ -45,7 +45,7 @@ func TestProxyCheck(t *testing.T) {
 		}
 	}
 	{
-		req, err := http.NewRequest("POST", "http://127.0.0.1:10086/check", nil)
+		req, err := http.NewRequest("POST", "http://127.0.0.1:10086/check?bbb", nil)
 		if err != nil {
 			t.Error(err)
 			return

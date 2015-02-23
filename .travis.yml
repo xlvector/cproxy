@@ -7,4 +7,3 @@ install:
     - go get github.com/elazarl/goproxy
     - go get github.com/pmylund/go-cache
     - go install github.com/xlvector/cproxy
-    - go test -v github.com/xlvector/cproxy/ci
