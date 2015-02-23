@@ -126,7 +126,7 @@ func Register(link string) {
 }
 
 func Select() *Proxy {
-	for i := 0; i < len(proxyList) && i < 3; i++ {
+	for i := 0; i < len(proxyList)*2; i++ {
 		k := rand.Intn(len(proxyList))
 		if time.Now().Sub(proxyList[k].LastCheckOKTm).Minutes() < 5 && proxyList[k].LastCheckOK && proxyList[k].AveSecs() < 2.0 {
 			return proxyList[k]
