@@ -9,8 +9,10 @@ import (
 type RespHandler struct {
 }
 
-func (r *RespHandler) Handle(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	if resp == nil || resp.Request == nil || resp.Request.URL == nil {
+func (r *RespHandler) Handle(resp *http.Response,
+	ctx *goproxy.ProxyCtx) *http.Response {
+	if resp == nil || resp.Request == nil ||
+		resp.Request.URL == nil {
 		return resp
 	}
 	link := resp.Request.URL.String()
